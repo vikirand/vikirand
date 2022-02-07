@@ -1,15 +1,15 @@
 pipeline {
-agent any ①
+agent any 
 stages {
-stage('Build') { ②
-steps { ③
-sh 'make' ④
+stage('Build') { 
+steps { 
+sh 'make' 
 }
 }
 stage('Test'){
 steps {
 sh 'make check'
-junit 'reports/**/*.xml' ⑤
+junit 'reports/**/*.xml' 
 }
 }
 stage('Deploy') {
