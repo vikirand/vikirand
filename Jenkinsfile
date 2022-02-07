@@ -5,7 +5,7 @@ pipeline {
         choice(choices: ['Deployment' , 'Rollback'], description: '',name: 'Process')
         choice(choices: ['QA' , 'Pre-prod'], description: '',name: 'REQUESTED_ACTION')
         string(name: 'IP', description: 'Please enter you backend IP')
-        gitParameter branchFilter: 'origin/(.*)', defaultValue: 'master', name: 'BRANCH', type: 'PT_BRANCH', useRepository: 'https://github.com/vennavenkatesh/devops-sample.git'
+        gitParameter branchFilter: 'origin/(.*)', defaultValue: 'main', name: 'BRANCH', type: 'PT_BRANCH', useRepository: 'https://github.com/vikirand/vikirand.git'
     }
     stages {
         stage ("process") {
@@ -18,9 +18,9 @@ pipeline {
         stage("Git checkout") {
             steps {
                 script {
-                    if (params.BRANCH == 'master') {
+                    if (params.BRANCH == 'main') {
                         echo 'I only execute on the master branch'
-                        git branch: "${params.BRANCH}", url: "https://github.com/vennavenkatesh/devops-sample.git" , poll: true
+                        git branch: "${params.BRANCH}", url: "https://github.com/vikirand/vikirand.git" , poll: true
                     } 
                     else {
                         echo 'This is not correct branch'
@@ -82,7 +82,7 @@ pipeline {
                     def userInput = input(id: 'userInput', message: 'Ready for Deployment?')
                     echo "Deploy into tomcat server"
                     sh "cd $WORKSPACE/target/"
-               // sh "cd $WORKSPACE/target/ && scp -r *.war tomcat@3.109.56.173:/opt/apache-tomcat-9.0.56/webapps/"
+                    scp -r *.war tomcat@3.19.62.5:/apache-tomcat-9.0.58/webapps/"
                 
                     echo " Deployment has been completed successfully"
                 }
@@ -100,7 +100,7 @@ pipeline {
             stage("Rollback") {
                 steps {
                 echo "Rollback-process"
-                //git branch: "${params.BRANCH}", url: "https://github.com/vennavenkatesh/devops-sample.git" , poll: true
+                //git branch: "${params.BRANCH}", url: "https://github.com/vikirand/vikirand.git" , poll: true
                 }
             }        
         }
