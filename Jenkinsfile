@@ -1,20 +1,21 @@
 pipeline {
-  agent any
-  stages {
-    stage("build") {
-      steps {
-        echo 'built by vijay'
-      }
-    }
-     stage("test") {
-      steps {
-        echo 'tested by vj'
-      }
-    }
-     stage("deploy") {
-      steps {
-        echo 'deployed by vijay'
-      }
-    }
-  }
+agent any ①
+stages {
+stage('Build') { ②
+steps { ③
+sh 'make' ④
+}
+}
+stage('Test'){
+steps {
+sh 'make check'
+junit 'reports/**/*.xml' ⑤
+}
+}
+stage('Deploy') {
+steps {
+sh 'make publish'
+}
+}
+}
 }
