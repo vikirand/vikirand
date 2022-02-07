@@ -5,7 +5,7 @@ pipeline {
         choice(choices: ['Deployment' , 'Rollback'], description: '',name: 'Process')
         choice(choices: ['QA' , 'Pre-prod'], description: '',name: 'REQUESTED_ACTION')
         string(name: 'IP', description: 'Please enter you backend IP')
-        gitParameter branchFilter: 'origin/(.*)', defaultValue: 'main', name: 'BRANCH', type: 'PT_BRANCH', useRepository: ''
+        gitParameter branchFilter: 'origin/(.*)', defaultValue: 'main', name: 'BRANCH', type: 'PT_BRANCH', useRepository: 'https://github.com/vikirand/vikirand.git'
     }
     stages {
         stage ("process") {
@@ -18,9 +18,9 @@ pipeline {
         stage("Git checkout") {
             steps {
                 script {
-                    if (params.BRANCH == 'master') {
-                        echo 'I only execute on the master branch'
-                        git branch: "${params.BRANCH}", url: "https://github.com/vennavenkatesh/devops-sample.git" , poll: true
+                    if (params.BRANCH == 'main') {
+                        echo 'I only execute on the main branch'
+                        git branch: "${params.BRANCH}", url: "https://github.com/vikirand/vikirand.git" , poll: true
                     } 
                     else {
                         echo 'This is not correct branch'
@@ -29,31 +29,7 @@ pipeline {
             }
         }
         
-        stage("sonar") {
-            when {
-                expression { params.REQUESTED_ACTION == 'QA' }
-            }
-            steps {
-                echo "executing the Sonar-Report"
-               // sh "cd $WORKSPACE && mvn sonar:sonar"
-            }
-        }
-        
-
-        stage("Test-cases & Build") {
-            steps {
-                echo "executing the test cases"
-                sh "cd $WORKSPACE && mvn clean install"
-            }
-        }
-        
-         stage("Nexus-Deploy") {
-            steps {
-                echo "executing the test cases"
-                //sh "cd $WORKSPACE && mvn clean deploy"
-            }
-        }
-
+    
         stage("IP") {
             steps {
                 script {
