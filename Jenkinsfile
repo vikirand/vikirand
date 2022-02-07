@@ -10,7 +10,7 @@ pipeline {
     stages {
         stage ("process") {
             when {
-            expression { params.Process == 'Deployment' }
+            expression {params.Process == 'Deployment' }
             }
    
    
