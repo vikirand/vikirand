@@ -5,7 +5,6 @@ pipeline {
         choice(choices: ['Deployment' , 'Rollback'], description: '',name: 'Process')
         choice(choices: ['QA' , 'Pre-prod'], description: '',name: 'REQUESTED_ACTION')
         string(name: 'IP', description: 'Please enter you backend IP')
-        gitParameter branchFilter: 'origin/(.*)', defaultValue: 'main', name: 'BRANCH', type: 'PT_BRANCH', useRepository: 'https://github.com/vikirand/vikirand.git'
     }
     stages {
         stage ("process") {
@@ -20,7 +19,7 @@ pipeline {
                 script {
                     if (params.BRANCH == 'main') {
                         echo 'I only execute on the main branch'
-                        git branch: "${params.BRANCH}", url: "https://github.com/vikirand/vikirand.git" , poll: true
+                    //    git branch: "${params.BRANCH}", url: "https://github.com/vikirand/vikirand.git" , poll: true
                     } 
                     else {
                         echo 'This is not correct branch'
